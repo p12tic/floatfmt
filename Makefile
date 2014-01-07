@@ -30,7 +30,7 @@
 # output to /dev/null and prints the amount of *user* time used by each
 # program. Be sure to disable CPU frequency scaling before running this.
 
-PROGRAMS=libc libc_long cf null_libc null_cf cmp
+PROGRAMS=libc libc_long cf libcpp null_libc null_cf cmp
 all: $(PROGRAMS)
 
 SOURCES=test.cc cformat.h cformat.cc
@@ -43,6 +43,8 @@ libc_long: $(SOURCES)
 	g++ $(CFLAGS) -DTEST_LIBC_LONG=1 cformat.cc test.cc -o libc_long
 cf: $(SOURCES)
 	g++ $(CFLAGS) -DTEST_CF=1 $(WANT_ASM) cformat.cc test.cc -o cf
+libcpp: $(SOURCES)
+	g++ $(CFLAGS) -DTEST_LIBCPP=1 cformat.cc test.cc -o libcpp
 null_libc: $(SOURCES)
 	g++ $(CFLAGS) -DTEST_NULL_LIBC=1 cformat.cc test.cc -o null_libc
 null_cf: $(SOURCES)
@@ -56,6 +58,7 @@ clean:
 test: all
 	@time -f " cf        time: %U " ./cf > /dev/null
 	@time -f " libc      time: %U " ./libc > /dev/null
+	@time -f " libcpp    time: %U " ./libcpp > /dev/null
 	@time -f " null_cf   time: %U " ./null_cf > /dev/null
 	@time -f " null_libc time: %U " ./null_libc > /dev/null
 

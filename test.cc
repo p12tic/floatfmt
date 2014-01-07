@@ -73,7 +73,8 @@ int main()
     unsigned long long succ = 0;
     unsigned long long fail = 0;
     unsigned long long loop = 0;
-
+    std::cout.setf(std::ios_base::scientific);
+    std::cout.precision(17);
     T val = g_start;
     for (unsigned long long i = 0; i < g_test_count; ++i) {
 #if TEST_LIBC
@@ -83,6 +84,8 @@ int main()
 #elif TEST_CF
         print_float10(std::cout, flags, -1, 17, fmt, val, "%.17e");
         std::cout << '\n';
+#elif TEST_LIBCPP
+        std::cout << val << '\n';
 #elif TEST_NULL_LIBC
         std::printf("zzzzzzzzzz");
 #elif TEST_NULL_CF
